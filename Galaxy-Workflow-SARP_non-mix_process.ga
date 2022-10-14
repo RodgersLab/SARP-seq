@@ -1,0 +1,1277 @@
+{
+    "a_galaxy_workflow": "true",
+    "annotation": "Filters and processes SARP-seq fastq files",
+    "format-version": "0.1",
+    "name": "SARP non-mix process",
+    "steps": {
+        "0": {
+            "annotation": "",
+            "content_id": "toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_grep_tool/1.1.1",
+            "errors": null,
+            "id": 0,
+            "input_connections": {},
+            "inputs": [
+                {
+                    "description": "runtime parameter for tool Search in textfiles",
+                    "name": "infile"
+                }
+            ],
+            "label": "precise SJ match",
+            "name": "Search in textfiles",
+            "outputs": [
+                {
+                    "name": "output",
+                    "type": "input"
+                }
+            ],
+            "position": {
+                "left": 0,
+                "top": 150.1875
+            },
+            "post_job_actions": {},
+            "tool_id": "toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_grep_tool/1.1.1",
+            "tool_shed_repository": {
+                "changeset_revision": "f46f0e4f75c4",
+                "name": "text_processing",
+                "owner": "bgruening",
+                "tool_shed": "toolshed.g2.bx.psu.edu"
+            },
+            "tool_state": "{\"case_sensitive\": \"-i\", \"color\": \"NOCOLOR\", \"infile\": {\"__class__\": \"RuntimeValue\"}, \"invert\": \"\", \"lines_after\": \"2\", \"lines_before\": \"1\", \"regex_type\": \"-P\", \"url_paste\": \"^.........................GTGCACAGTG|^.....................................GTGCACAGTG\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
+            "tool_version": null,
+            "type": "tool",
+            "uuid": "efa483c7-8a8a-4fb5-a96c-1320efc70c65",
+            "workflow_outputs": [
+                {
+                    "label": "precise_SJ",
+                    "output_name": "output",
+                    "uuid": "c96ada87-1cd8-483c-9207-efa98e8a1e39"
+                }
+            ]
+        },
+        "1": {
+            "annotation": "",
+            "content_id": "toolshed.g2.bx.psu.edu/repos/iuc/prinseq/prinseq/0.20.4+galaxy1",
+            "errors": null,
+            "id": 1,
+            "input_connections": {
+                "seq_type|input_singles": {
+                    "id": 0,
+                    "output_name": "output"
+                }
+            },
+            "inputs": [],
+            "label": null,
+            "name": "PRINSEQ",
+            "outputs": [
+                {
+                    "name": "good_sequence_file",
+                    "type": "input"
+                },
+                {
+                    "name": "rejected_sequence_file",
+                    "type": "input"
+                }
+            ],
+            "position": {
+                "left": 252.109375,
+                "top": 171.75
+            },
+            "post_job_actions": {
+                "HideDatasetActionrejected_sequence_file": {
+                    "action_arguments": {},
+                    "action_type": "HideDatasetAction",
+                    "output_name": "rejected_sequence_file"
+                }
+            },
+            "tool_id": "toolshed.g2.bx.psu.edu/repos/iuc/prinseq/prinseq/0.20.4+galaxy1",
+            "tool_shed_repository": {
+                "changeset_revision": "654b3a274ed5",
+                "name": "prinseq",
+                "owner": "iuc",
+                "tool_shed": "toolshed.g2.bx.psu.edu"
+            },
+            "tool_state": "{\"filter_treatments\": {\"apply_filter_treatments\": \"true\", \"__current_case__\": 0, \"length_filter_treatments\": {\"apply_length_filter_treatments\": \"false\", \"__current_case__\": 1}, \"quality_filter_treatments\": {\"apply_quality_filter_treatments\": \"true\", \"__current_case__\": 0, \"min_quality_filter_treatments\": {\"apply_min_quality_filter_treatments\": \"false\", \"__current_case__\": 1}, \"max_quality_filter_treatments\": {\"apply_max_quality_filter_treatments\": \"false\", \"__current_case__\": 1}, \"mean_quality_filter_treatments\": {\"apply_mean_quality_filter_treatments\": \"true\", \"__current_case__\": 0, \"min_mean_quality_filter_treatments\": {\"apply_min_mean_quality_filter_treatments\": \"true\", \"__current_case__\": 0, \"min_mean_quality_filter_treatment_value\": \"20\"}, \"max_mean_quality_filter_treatments\": {\"apply_max_mean_quality_filter_treatments\": \"false\", \"__current_case__\": 1}}}, \"base_content_filter_treatments\": {\"apply_base_content_filter_treatments\": \"false\", \"__current_case__\": 1}, \"complexity_filter_treatments\": {\"apply_complexity_filter_treatments\": \"false\", \"__current_case__\": 1}}, \"seq_type\": {\"seq_type_opt\": \"single\", \"__current_case__\": 0, \"input_singles\": {\"__class__\": \"ConnectedValue\"}}, \"trimming_treatments\": {\"apply_trimming_treatments\": \"false\", \"__current_case__\": 1}, \"__page__\": null, \"__rerun_remap_job_id__\": null}",
+            "tool_version": null,
+            "type": "tool",
+            "uuid": "727a8310-6f81-4fca-ab03-b193662243b5",
+            "workflow_outputs": [
+                {
+                    "label": "q20_mean-filter",
+                    "output_name": "good_sequence_file",
+                    "uuid": "764b9981-c0e5-4df1-a67c-e0749fb5d051"
+                }
+            ]
+        },
+        "2": {
+            "annotation": "",
+            "content_id": "toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_grep_tool/1.1.1",
+            "errors": null,
+            "id": 2,
+            "input_connections": {
+                "infile": {
+                    "id": 1,
+                    "output_name": "good_sequence_file"
+                }
+            },
+            "inputs": [],
+            "label": "Consensus nonamer",
+            "name": "Search in textfiles",
+            "outputs": [
+                {
+                    "name": "output",
+                    "type": "input"
+                }
+            ],
+            "position": {
+                "left": 504.6875,
+                "top": 30.546875
+            },
+            "post_job_actions": {
+                "RenameDatasetActionoutput": {
+                    "action_arguments": {
+                        "newname": "precise_SJ"
+                    },
+                    "action_type": "RenameDatasetAction",
+                    "output_name": "output"
+                }
+            },
+            "tool_id": "toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_grep_tool/1.1.1",
+            "tool_shed_repository": {
+                "changeset_revision": "f46f0e4f75c4",
+                "name": "text_processing",
+                "owner": "bgruening",
+                "tool_shed": "toolshed.g2.bx.psu.edu"
+            },
+            "tool_state": "{\"case_sensitive\": \"-i\", \"color\": \"NOCOLOR\", \"infile\": {\"__class__\": \"ConnectedValue\"}, \"invert\": \"\", \"lines_after\": \"2\", \"lines_before\": \"1\", \"regex_type\": \"-P\", \"url_paste\": \"^GT\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
+            "tool_version": null,
+            "type": "tool",
+            "uuid": "ee829faf-0c05-4556-a4ae-ccf5e52a3d6a",
+            "workflow_outputs": [
+                {
+                    "label": null,
+                    "output_name": "output",
+                    "uuid": "1374839c-3443-4e4b-9319-3276ef590f2a"
+                }
+            ]
+        },
+        "3": {
+            "annotation": "",
+            "content_id": "toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_grep_tool/1.1.1",
+            "errors": null,
+            "id": 3,
+            "input_connections": {
+                "infile": {
+                    "id": 1,
+                    "output_name": "good_sequence_file"
+                }
+            },
+            "inputs": [],
+            "label": "PAX3 nonamer",
+            "name": "Search in textfiles",
+            "outputs": [
+                {
+                    "name": "output",
+                    "type": "input"
+                }
+            ],
+            "position": {
+                "left": 496.359375,
+                "top": 195.453125
+            },
+            "post_job_actions": {
+                "RenameDatasetActionoutput": {
+                    "action_arguments": {
+                        "newname": "precise_SJ"
+                    },
+                    "action_type": "RenameDatasetAction",
+                    "output_name": "output"
+                }
+            },
+            "tool_id": "toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_grep_tool/1.1.1",
+            "tool_shed_repository": {
+                "changeset_revision": "f46f0e4f75c4",
+                "name": "text_processing",
+                "owner": "bgruening",
+                "tool_shed": "toolshed.g2.bx.psu.edu"
+            },
+            "tool_state": "{\"case_sensitive\": \"-i\", \"color\": \"NOCOLOR\", \"infile\": {\"__class__\": \"ConnectedValue\"}, \"invert\": \"\", \"lines_after\": \"2\", \"lines_before\": \"1\", \"regex_type\": \"-P\", \"url_paste\": \"^GG\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
+            "tool_version": null,
+            "type": "tool",
+            "uuid": "beecf994-1c7b-4eaa-aba9-16550d88266a",
+            "workflow_outputs": [
+                {
+                    "label": null,
+                    "output_name": "output",
+                    "uuid": "e262780b-5aa4-4b59-b2b3-784c25588328"
+                }
+            ]
+        },
+        "4": {
+            "annotation": "",
+            "content_id": "toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_grep_tool/1.1.1",
+            "errors": null,
+            "id": 4,
+            "input_connections": {
+                "infile": {
+                    "id": 1,
+                    "output_name": "good_sequence_file"
+                }
+            },
+            "inputs": [],
+            "label": "LMO2 nonamer",
+            "name": "Search in textfiles",
+            "outputs": [
+                {
+                    "name": "output",
+                    "type": "input"
+                }
+            ],
+            "position": {
+                "left": 505.96875,
+                "top": 360.796875
+            },
+            "post_job_actions": {
+                "RenameDatasetActionoutput": {
+                    "action_arguments": {
+                        "newname": "precise_SJ"
+                    },
+                    "action_type": "RenameDatasetAction",
+                    "output_name": "output"
+                }
+            },
+            "tool_id": "toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_grep_tool/1.1.1",
+            "tool_shed_repository": {
+                "changeset_revision": "f46f0e4f75c4",
+                "name": "text_processing",
+                "owner": "bgruening",
+                "tool_shed": "toolshed.g2.bx.psu.edu"
+            },
+            "tool_state": "{\"case_sensitive\": \"-i\", \"color\": \"NOCOLOR\", \"infile\": {\"__class__\": \"ConnectedValue\"}, \"invert\": \"\", \"lines_after\": \"2\", \"lines_before\": \"1\", \"regex_type\": \"-P\", \"url_paste\": \"^TA\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
+            "tool_version": null,
+            "type": "tool",
+            "uuid": "e3bfe74b-048e-46ff-90d2-d5263a523bfd",
+            "workflow_outputs": [
+                {
+                    "label": null,
+                    "output_name": "output",
+                    "uuid": "6b88adc4-f96f-41a0-817f-6e081f2ab01e"
+                }
+            ]
+        },
+        "5": {
+            "annotation": "",
+            "content_id": "trimmer",
+            "errors": null,
+            "id": 5,
+            "input_connections": {
+                "input1": {
+                    "id": 2,
+                    "output_name": "output"
+                }
+            },
+            "inputs": [
+                {
+                    "description": "runtime parameter for tool Trim",
+                    "name": "ignore"
+                }
+            ],
+            "label": "trim to hept-space AC",
+            "name": "Trim",
+            "outputs": [
+                {
+                    "name": "out_file1",
+                    "type": "input"
+                }
+            ],
+            "position": {
+                "left": 763.1875,
+                "top": 91.46875
+            },
+            "post_job_actions": {
+                "RenameDatasetActionout_file1": {
+                    "action_arguments": {
+                        "newname": "precise_SJ_hept-space"
+                    },
+                    "action_type": "RenameDatasetAction",
+                    "output_name": "out_file1"
+                }
+            },
+            "tool_id": "trimmer",
+            "tool_state": "{\"col\": \"0\", \"end\": \"40\", \"fastq\": \"-q\", \"ignore\": {\"__class__\": \"RuntimeValue\"}, \"input1\": {\"__class__\": \"ConnectedValue\"}, \"start\": \"32\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
+            "tool_version": null,
+            "type": "tool",
+            "uuid": "a03c0fed-fc69-4f6e-8082-564eee8d7855",
+            "workflow_outputs": [
+                {
+                    "label": null,
+                    "output_name": "out_file1",
+                    "uuid": "9d016182-bf5a-427c-8f94-95fd20d1f893"
+                }
+            ]
+        },
+        "6": {
+            "annotation": "",
+            "content_id": "trimmer",
+            "errors": null,
+            "id": 6,
+            "input_connections": {
+                "input1": {
+                    "id": 3,
+                    "output_name": "output"
+                }
+            },
+            "inputs": [
+                {
+                    "description": "runtime parameter for tool Trim",
+                    "name": "ignore"
+                }
+            ],
+            "label": "trim to hept-space PAX3 non",
+            "name": "Trim",
+            "outputs": [
+                {
+                    "name": "out_file1",
+                    "type": "input"
+                }
+            ],
+            "position": {
+                "left": 761.265625,
+                "top": 220.5
+            },
+            "post_job_actions": {},
+            "tool_id": "trimmer",
+            "tool_state": "{\"col\": \"0\", \"end\": \"28\", \"fastq\": \"-q\", \"ignore\": {\"__class__\": \"RuntimeValue\"}, \"input1\": {\"__class__\": \"ConnectedValue\"}, \"start\": \"20\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
+            "tool_version": null,
+            "type": "tool",
+            "uuid": "fab19ec6-4009-4ebe-8654-890b5056d7ee",
+            "workflow_outputs": [
+                {
+                    "label": "precise_SJ_hept-space",
+                    "output_name": "out_file1",
+                    "uuid": "963956f6-4a47-4d73-b52b-d5e0bf9640bb"
+                }
+            ]
+        },
+        "7": {
+            "annotation": "",
+            "content_id": "trimmer",
+            "errors": null,
+            "id": 7,
+            "input_connections": {
+                "input1": {
+                    "id": 4,
+                    "output_name": "output"
+                }
+            },
+            "inputs": [
+                {
+                    "description": "runtime parameter for tool Trim",
+                    "name": "ignore"
+                }
+            ],
+            "label": "Trim to hept space LMO2 non",
+            "name": "Trim",
+            "outputs": [
+                {
+                    "name": "out_file1",
+                    "type": "input"
+                }
+            ],
+            "position": {
+                "left": 763.84375,
+                "top": 384.515625
+            },
+            "post_job_actions": {
+                "RenameDatasetActionout_file1": {
+                    "action_arguments": {
+                        "newname": "precise_SJ_hept-space"
+                    },
+                    "action_type": "RenameDatasetAction",
+                    "output_name": "out_file1"
+                }
+            },
+            "tool_id": "trimmer",
+            "tool_state": "{\"col\": \"0\", \"end\": \"28\", \"fastq\": \"-q\", \"ignore\": {\"__class__\": \"RuntimeValue\"}, \"input1\": {\"__class__\": \"ConnectedValue\"}, \"start\": \"20\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
+            "tool_version": null,
+            "type": "tool",
+            "uuid": "ed224bae-b79c-4866-8387-a792ea4d7b78",
+            "workflow_outputs": [
+                {
+                    "label": null,
+                    "output_name": "out_file1",
+                    "uuid": "3f9c590c-c766-4949-b94c-17cf0619d3fb"
+                }
+            ]
+        },
+        "8": {
+            "annotation": "",
+            "content_id": "toolshed.g2.bx.psu.edu/repos/iuc/prinseq/prinseq/0.20.4+galaxy1",
+            "errors": null,
+            "id": 8,
+            "input_connections": {
+                "seq_type|input_singles": {
+                    "id": 5,
+                    "output_name": "out_file1"
+                }
+            },
+            "inputs": [],
+            "label": "Min q20 filter AC",
+            "name": "PRINSEQ",
+            "outputs": [
+                {
+                    "name": "good_sequence_file",
+                    "type": "input"
+                },
+                {
+                    "name": "rejected_sequence_file",
+                    "type": "input"
+                }
+            ],
+            "position": {
+                "left": 1033.59375,
+                "top": 0.0
+            },
+            "post_job_actions": {
+                "HideDatasetActionrejected_sequence_file": {
+                    "action_arguments": {},
+                    "action_type": "HideDatasetAction",
+                    "output_name": "rejected_sequence_file"
+                },
+                "RenameDatasetActiongood_sequence_file": {
+                    "action_arguments": {
+                        "newname": "q20-minfilt_hept-space"
+                    },
+                    "action_type": "RenameDatasetAction",
+                    "output_name": "good_sequence_file"
+                }
+            },
+            "tool_id": "toolshed.g2.bx.psu.edu/repos/iuc/prinseq/prinseq/0.20.4+galaxy1",
+            "tool_shed_repository": {
+                "changeset_revision": "654b3a274ed5",
+                "name": "prinseq",
+                "owner": "iuc",
+                "tool_shed": "toolshed.g2.bx.psu.edu"
+            },
+            "tool_state": "{\"filter_treatments\": {\"apply_filter_treatments\": \"true\", \"__current_case__\": 0, \"length_filter_treatments\": {\"apply_length_filter_treatments\": \"true\", \"__current_case__\": 0, \"min_length_filter_treatments\": {\"apply_min_length_filter_treatments\": \"false\", \"__current_case__\": 1}, \"max_length_filter_treatments\": {\"apply_max_length_filter_treatments\": \"false\", \"__current_case__\": 1}}, \"quality_filter_treatments\": {\"apply_quality_filter_treatments\": \"true\", \"__current_case__\": 0, \"min_quality_filter_treatments\": {\"apply_min_quality_filter_treatments\": \"true\", \"__current_case__\": 0, \"min_quality_filter_treatment_value\": \"20\"}, \"max_quality_filter_treatments\": {\"apply_max_quality_filter_treatments\": \"false\", \"__current_case__\": 1}, \"mean_quality_filter_treatments\": {\"apply_mean_quality_filter_treatments\": \"false\", \"__current_case__\": 1}}, \"base_content_filter_treatments\": {\"apply_base_content_filter_treatments\": \"true\", \"__current_case__\": 0, \"GC_perc_content_filter_treatments\": {\"apply_GC_perc_content_filter_treatments\": \"false\", \"__current_case__\": 1}, \"N_number_content_filter_treatments\": {\"apply_N_number_content_filter_treatments\": \"true\", \"__current_case__\": 0, \"N_number_content_filter_treatment_value\": \"0\"}, \"N_percentage_content_filter_treatments\": {\"apply_N_percentage_content_filter_treatments\": \"false\", \"__current_case__\": 1}, \"apply_other_base_content_filter_treatments\": \"false\"}, \"complexity_filter_treatments\": {\"apply_complexity_filter_treatments\": \"false\", \"__current_case__\": 1}}, \"seq_type\": {\"seq_type_opt\": \"single\", \"__current_case__\": 0, \"input_singles\": {\"__class__\": \"ConnectedValue\"}}, \"trimming_treatments\": {\"apply_trimming_treatments\": \"false\", \"__current_case__\": 1}, \"__page__\": null, \"__rerun_remap_job_id__\": null}",
+            "tool_version": null,
+            "type": "tool",
+            "uuid": "f2528555-1e5f-4ca6-bd2b-ec4034baedfe",
+            "workflow_outputs": [
+                {
+                    "label": null,
+                    "output_name": "good_sequence_file",
+                    "uuid": "519f1be3-8d9a-4d2b-b7ed-66d19f9565a9"
+                }
+            ]
+        },
+        "9": {
+            "annotation": "",
+            "content_id": "toolshed.g2.bx.psu.edu/repos/iuc/prinseq/prinseq/0.20.4+galaxy1",
+            "errors": null,
+            "id": 9,
+            "input_connections": {
+                "seq_type|input_singles": {
+                    "id": 6,
+                    "output_name": "out_file1"
+                }
+            },
+            "inputs": [],
+            "label": "min q20 filter PAX3 non",
+            "name": "PRINSEQ",
+            "outputs": [
+                {
+                    "name": "good_sequence_file",
+                    "type": "input"
+                },
+                {
+                    "name": "rejected_sequence_file",
+                    "type": "input"
+                }
+            ],
+            "position": {
+                "left": 1034.453125,
+                "top": 245.5
+            },
+            "post_job_actions": {
+                "HideDatasetActionrejected_sequence_file": {
+                    "action_arguments": {},
+                    "action_type": "HideDatasetAction",
+                    "output_name": "rejected_sequence_file"
+                },
+                "RenameDatasetActiongood_sequence_file": {
+                    "action_arguments": {
+                        "newname": "q20-minfilt_hept-space"
+                    },
+                    "action_type": "RenameDatasetAction",
+                    "output_name": "good_sequence_file"
+                }
+            },
+            "tool_id": "toolshed.g2.bx.psu.edu/repos/iuc/prinseq/prinseq/0.20.4+galaxy1",
+            "tool_shed_repository": {
+                "changeset_revision": "654b3a274ed5",
+                "name": "prinseq",
+                "owner": "iuc",
+                "tool_shed": "toolshed.g2.bx.psu.edu"
+            },
+            "tool_state": "{\"filter_treatments\": {\"apply_filter_treatments\": \"true\", \"__current_case__\": 0, \"length_filter_treatments\": {\"apply_length_filter_treatments\": \"true\", \"__current_case__\": 0, \"min_length_filter_treatments\": {\"apply_min_length_filter_treatments\": \"false\", \"__current_case__\": 1}, \"max_length_filter_treatments\": {\"apply_max_length_filter_treatments\": \"false\", \"__current_case__\": 1}}, \"quality_filter_treatments\": {\"apply_quality_filter_treatments\": \"true\", \"__current_case__\": 0, \"min_quality_filter_treatments\": {\"apply_min_quality_filter_treatments\": \"true\", \"__current_case__\": 0, \"min_quality_filter_treatment_value\": \"20\"}, \"max_quality_filter_treatments\": {\"apply_max_quality_filter_treatments\": \"false\", \"__current_case__\": 1}, \"mean_quality_filter_treatments\": {\"apply_mean_quality_filter_treatments\": \"false\", \"__current_case__\": 1}}, \"base_content_filter_treatments\": {\"apply_base_content_filter_treatments\": \"true\", \"__current_case__\": 0, \"GC_perc_content_filter_treatments\": {\"apply_GC_perc_content_filter_treatments\": \"false\", \"__current_case__\": 1}, \"N_number_content_filter_treatments\": {\"apply_N_number_content_filter_treatments\": \"true\", \"__current_case__\": 0, \"N_number_content_filter_treatment_value\": \"0\"}, \"N_percentage_content_filter_treatments\": {\"apply_N_percentage_content_filter_treatments\": \"false\", \"__current_case__\": 1}, \"apply_other_base_content_filter_treatments\": \"false\"}, \"complexity_filter_treatments\": {\"apply_complexity_filter_treatments\": \"false\", \"__current_case__\": 1}}, \"seq_type\": {\"seq_type_opt\": \"single\", \"__current_case__\": 0, \"input_singles\": {\"__class__\": \"ConnectedValue\"}}, \"trimming_treatments\": {\"apply_trimming_treatments\": \"false\", \"__current_case__\": 1}, \"__page__\": null, \"__rerun_remap_job_id__\": null}",
+            "tool_version": null,
+            "type": "tool",
+            "uuid": "fdc90704-2a72-40a6-a24d-de2c8d2c16c7",
+            "workflow_outputs": [
+                {
+                    "label": "prinseq filtered hept q20 min ",
+                    "output_name": "good_sequence_file",
+                    "uuid": "42fe175d-1c4b-4935-a58e-7264879bba1a"
+                }
+            ]
+        },
+        "10": {
+            "annotation": "",
+            "content_id": "toolshed.g2.bx.psu.edu/repos/iuc/prinseq/prinseq/0.20.4+galaxy1",
+            "errors": null,
+            "id": 10,
+            "input_connections": {
+                "seq_type|input_singles": {
+                    "id": 7,
+                    "output_name": "out_file1"
+                }
+            },
+            "inputs": [],
+            "label": "min q20 filter LMO2 non",
+            "name": "PRINSEQ",
+            "outputs": [
+                {
+                    "name": "good_sequence_file",
+                    "type": "input"
+                },
+                {
+                    "name": "rejected_sequence_file",
+                    "type": "input"
+                }
+            ],
+            "position": {
+                "left": 1037.875,
+                "top": 472.171875
+            },
+            "post_job_actions": {
+                "HideDatasetActionrejected_sequence_file": {
+                    "action_arguments": {},
+                    "action_type": "HideDatasetAction",
+                    "output_name": "rejected_sequence_file"
+                },
+                "RenameDatasetActiongood_sequence_file": {
+                    "action_arguments": {
+                        "newname": "q20-minfilt_hept-space"
+                    },
+                    "action_type": "RenameDatasetAction",
+                    "output_name": "good_sequence_file"
+                }
+            },
+            "tool_id": "toolshed.g2.bx.psu.edu/repos/iuc/prinseq/prinseq/0.20.4+galaxy1",
+            "tool_shed_repository": {
+                "changeset_revision": "654b3a274ed5",
+                "name": "prinseq",
+                "owner": "iuc",
+                "tool_shed": "toolshed.g2.bx.psu.edu"
+            },
+            "tool_state": "{\"filter_treatments\": {\"apply_filter_treatments\": \"true\", \"__current_case__\": 0, \"length_filter_treatments\": {\"apply_length_filter_treatments\": \"true\", \"__current_case__\": 0, \"min_length_filter_treatments\": {\"apply_min_length_filter_treatments\": \"false\", \"__current_case__\": 1}, \"max_length_filter_treatments\": {\"apply_max_length_filter_treatments\": \"false\", \"__current_case__\": 1}}, \"quality_filter_treatments\": {\"apply_quality_filter_treatments\": \"true\", \"__current_case__\": 0, \"min_quality_filter_treatments\": {\"apply_min_quality_filter_treatments\": \"true\", \"__current_case__\": 0, \"min_quality_filter_treatment_value\": \"20\"}, \"max_quality_filter_treatments\": {\"apply_max_quality_filter_treatments\": \"false\", \"__current_case__\": 1}, \"mean_quality_filter_treatments\": {\"apply_mean_quality_filter_treatments\": \"false\", \"__current_case__\": 1}}, \"base_content_filter_treatments\": {\"apply_base_content_filter_treatments\": \"true\", \"__current_case__\": 0, \"GC_perc_content_filter_treatments\": {\"apply_GC_perc_content_filter_treatments\": \"false\", \"__current_case__\": 1}, \"N_number_content_filter_treatments\": {\"apply_N_number_content_filter_treatments\": \"true\", \"__current_case__\": 0, \"N_number_content_filter_treatment_value\": \"0\"}, \"N_percentage_content_filter_treatments\": {\"apply_N_percentage_content_filter_treatments\": \"false\", \"__current_case__\": 1}, \"apply_other_base_content_filter_treatments\": \"false\"}, \"complexity_filter_treatments\": {\"apply_complexity_filter_treatments\": \"false\", \"__current_case__\": 1}}, \"seq_type\": {\"seq_type_opt\": \"single\", \"__current_case__\": 0, \"input_singles\": {\"__class__\": \"ConnectedValue\"}}, \"trimming_treatments\": {\"apply_trimming_treatments\": \"false\", \"__current_case__\": 1}, \"__page__\": null, \"__rerun_remap_job_id__\": null}",
+            "tool_version": null,
+            "type": "tool",
+            "uuid": "e1593452-cbc6-4643-b2b3-4184350d3b73",
+            "workflow_outputs": [
+                {
+                    "label": null,
+                    "output_name": "good_sequence_file",
+                    "uuid": "57c63d09-6172-4528-a3d8-5c6efac7c959"
+                }
+            ]
+        },
+        "11": {
+            "annotation": "",
+            "content_id": "toolshed.g2.bx.psu.edu/repos/devteam/fastqtofasta/fastq_to_fasta_python/1.1.5",
+            "errors": null,
+            "id": 11,
+            "input_connections": {
+                "input_file": {
+                    "id": 8,
+                    "output_name": "good_sequence_file"
+                }
+            },
+            "inputs": [],
+            "label": null,
+            "name": "FASTQ to FASTA",
+            "outputs": [
+                {
+                    "name": "output_file",
+                    "type": "fasta"
+                }
+            ],
+            "position": {
+                "left": 1286,
+                "top": 26.59375
+            },
+            "post_job_actions": {},
+            "tool_id": "toolshed.g2.bx.psu.edu/repos/devteam/fastqtofasta/fastq_to_fasta_python/1.1.5",
+            "tool_shed_repository": {
+                "changeset_revision": "297962e79f39",
+                "name": "fastqtofasta",
+                "owner": "devteam",
+                "tool_shed": "toolshed.g2.bx.psu.edu"
+            },
+            "tool_state": "{\"input_file\": {\"__class__\": \"ConnectedValue\"}, \"__page__\": null, \"__rerun_remap_job_id__\": null}",
+            "tool_version": null,
+            "type": "tool",
+            "uuid": "79f1f23f-e82e-4f92-9315-53e5ca38be03",
+            "workflow_outputs": [
+                {
+                    "label": null,
+                    "output_name": "output_file",
+                    "uuid": "92e655a8-2fe6-44b7-a95b-9621c0481bb7"
+                }
+            ]
+        },
+        "12": {
+            "annotation": "",
+            "content_id": "toolshed.g2.bx.psu.edu/repos/devteam/fastqtofasta/fastq_to_fasta_python/1.1.5",
+            "errors": null,
+            "id": 12,
+            "input_connections": {
+                "input_file": {
+                    "id": 9,
+                    "output_name": "good_sequence_file"
+                }
+            },
+            "inputs": [],
+            "label": null,
+            "name": "FASTQ to FASTA",
+            "outputs": [
+                {
+                    "name": "output_file",
+                    "type": "fasta"
+                }
+            ],
+            "position": {
+                "left": 1279.21875,
+                "top": 270.296875
+            },
+            "post_job_actions": {},
+            "tool_id": "toolshed.g2.bx.psu.edu/repos/devteam/fastqtofasta/fastq_to_fasta_python/1.1.5",
+            "tool_shed_repository": {
+                "changeset_revision": "297962e79f39",
+                "name": "fastqtofasta",
+                "owner": "devteam",
+                "tool_shed": "toolshed.g2.bx.psu.edu"
+            },
+            "tool_state": "{\"input_file\": {\"__class__\": \"ConnectedValue\"}, \"__page__\": null, \"__rerun_remap_job_id__\": null}",
+            "tool_version": null,
+            "type": "tool",
+            "uuid": "7f50b6b3-9d6a-4df7-b77f-b75cedfe3cca",
+            "workflow_outputs": [
+                {
+                    "label": "preciseSJ_filt_fasta",
+                    "output_name": "output_file",
+                    "uuid": "7164b0f1-55dd-4fd0-b5b9-93586b2a3ae0"
+                }
+            ]
+        },
+        "13": {
+            "annotation": "",
+            "content_id": "toolshed.g2.bx.psu.edu/repos/devteam/fastqtofasta/fastq_to_fasta_python/1.1.5",
+            "errors": null,
+            "id": 13,
+            "input_connections": {
+                "input_file": {
+                    "id": 10,
+                    "output_name": "good_sequence_file"
+                }
+            },
+            "inputs": [],
+            "label": null,
+            "name": "FASTQ to FASTA",
+            "outputs": [
+                {
+                    "name": "output_file",
+                    "type": "fasta"
+                }
+            ],
+            "position": {
+                "left": 1278.859375,
+                "top": 493.03125
+            },
+            "post_job_actions": {
+                "RenameDatasetActionoutput_file": {
+                    "action_arguments": {
+                        "newname": "preciseSJ_filt_fasta"
+                    },
+                    "action_type": "RenameDatasetAction",
+                    "output_name": "output_file"
+                }
+            },
+            "tool_id": "toolshed.g2.bx.psu.edu/repos/devteam/fastqtofasta/fastq_to_fasta_python/1.1.5",
+            "tool_shed_repository": {
+                "changeset_revision": "297962e79f39",
+                "name": "fastqtofasta",
+                "owner": "devteam",
+                "tool_shed": "toolshed.g2.bx.psu.edu"
+            },
+            "tool_state": "{\"input_file\": {\"__class__\": \"ConnectedValue\"}, \"__page__\": null, \"__rerun_remap_job_id__\": null}",
+            "tool_version": null,
+            "type": "tool",
+            "uuid": "a5e949a1-a930-44ab-ab3c-7e749f1199c2",
+            "workflow_outputs": [
+                {
+                    "label": null,
+                    "output_name": "output_file",
+                    "uuid": "ee694ada-e1e1-48c2-96bc-3d12ef19512e"
+                }
+            ]
+        },
+        "14": {
+            "annotation": "",
+            "content_id": "toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: revseq82/5.0.0",
+            "errors": null,
+            "id": 14,
+            "input_connections": {
+                "input1": {
+                    "id": 11,
+                    "output_name": "output_file"
+                }
+            },
+            "inputs": [],
+            "label": null,
+            "name": "revseq",
+            "outputs": [
+                {
+                    "name": "out_file1",
+                    "type": "fasta"
+                }
+            ],
+            "position": {
+                "left": 1534.234375,
+                "top": 58.4375
+            },
+            "post_job_actions": {
+                "RenameDatasetActionout_file1": {
+                    "action_arguments": {
+                        "newname": "preciseSJ_filtered_FWD"
+                    },
+                    "action_type": "RenameDatasetAction",
+                    "output_name": "out_file1"
+                }
+            },
+            "tool_id": "toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: revseq82/5.0.0",
+            "tool_shed_repository": {
+                "changeset_revision": "ce22ceec214a",
+                "name": "emboss_5",
+                "owner": "devteam",
+                "tool_shed": "toolshed.g2.bx.psu.edu"
+            },
+            "tool_state": "{\"complement\": \"yes\", \"input1\": {\"__class__\": \"ConnectedValue\"}, \"out_format1\": \"fasta\", \"reverse\": \"yes\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
+            "tool_version": null,
+            "type": "tool",
+            "uuid": "c89c0ad6-328e-4274-b1e0-bb4ee3600c06",
+            "workflow_outputs": [
+                {
+                    "label": null,
+                    "output_name": "out_file1",
+                    "uuid": "31653b4c-ded4-438f-b24c-c7496192b566"
+                }
+            ]
+        },
+        "15": {
+            "annotation": "",
+            "content_id": "toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: revseq82/5.0.0",
+            "errors": null,
+            "id": 15,
+            "input_connections": {
+                "input1": {
+                    "id": 12,
+                    "output_name": "output_file"
+                }
+            },
+            "inputs": [],
+            "label": "reverse_and_complement",
+            "name": "revseq",
+            "outputs": [
+                {
+                    "name": "out_file1",
+                    "type": "fasta"
+                }
+            ],
+            "position": {
+                "left": 1539.828125,
+                "top": 289.75
+            },
+            "post_job_actions": {
+                "RenameDatasetActionout_file1": {
+                    "action_arguments": {
+                        "newname": "preciseSJ_filtered_FWD"
+                    },
+                    "action_type": "RenameDatasetAction",
+                    "output_name": "out_file1"
+                }
+            },
+            "tool_id": "toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: revseq82/5.0.0",
+            "tool_shed_repository": {
+                "changeset_revision": "ce22ceec214a",
+                "name": "emboss_5",
+                "owner": "devteam",
+                "tool_shed": "toolshed.g2.bx.psu.edu"
+            },
+            "tool_state": "{\"complement\": \"yes\", \"input1\": {\"__class__\": \"ConnectedValue\"}, \"out_format1\": \"fasta\", \"reverse\": \"yes\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
+            "tool_version": null,
+            "type": "tool",
+            "uuid": "7cf3d142-767b-4cf0-a628-aff3dfd75036",
+            "workflow_outputs": [
+                {
+                    "label": "preciseSJ_filtered_FWD",
+                    "output_name": "out_file1",
+                    "uuid": "6cc4bcb6-b016-49ae-a356-ee2130d846ef"
+                }
+            ]
+        },
+        "16": {
+            "annotation": "",
+            "content_id": "toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: revseq82/5.0.0",
+            "errors": null,
+            "id": 16,
+            "input_connections": {
+                "input1": {
+                    "id": 13,
+                    "output_name": "output_file"
+                }
+            },
+            "inputs": [],
+            "label": null,
+            "name": "revseq",
+            "outputs": [
+                {
+                    "name": "out_file1",
+                    "type": "fasta"
+                }
+            ],
+            "position": {
+                "left": 1534.234375,
+                "top": 520.046875
+            },
+            "post_job_actions": {
+                "RenameDatasetActionout_file1": {
+                    "action_arguments": {
+                        "newname": "preciseSJ_filtered_FWD"
+                    },
+                    "action_type": "RenameDatasetAction",
+                    "output_name": "out_file1"
+                }
+            },
+            "tool_id": "toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: revseq82/5.0.0",
+            "tool_shed_repository": {
+                "changeset_revision": "ce22ceec214a",
+                "name": "emboss_5",
+                "owner": "devteam",
+                "tool_shed": "toolshed.g2.bx.psu.edu"
+            },
+            "tool_state": "{\"complement\": \"yes\", \"input1\": {\"__class__\": \"ConnectedValue\"}, \"out_format1\": \"fasta\", \"reverse\": \"yes\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
+            "tool_version": null,
+            "type": "tool",
+            "uuid": "daf67122-8212-42b1-abef-23d1d26dae23",
+            "workflow_outputs": [
+                {
+                    "label": null,
+                    "output_name": "out_file1",
+                    "uuid": "42993e23-6728-4c5f-9b6b-6539000f1ea1"
+                }
+            ]
+        },
+        "17": {
+            "annotation": "",
+            "content_id": "toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_grep_tool/1.1.1",
+            "errors": null,
+            "id": 17,
+            "input_connections": {
+                "infile": {
+                    "id": 14,
+                    "output_name": "out_file1"
+                }
+            },
+            "inputs": [],
+            "label": "CAC-match AC",
+            "name": "Search in textfiles",
+            "outputs": [
+                {
+                    "name": "output",
+                    "type": "input"
+                }
+            ],
+            "position": {
+                "left": 1778.375,
+                "top": 110.8125
+            },
+            "post_job_actions": {
+                "RenameDatasetActionoutput": {
+                    "action_arguments": {
+                        "newname": "preciseSJ_filtered_FWD_CAC"
+                    },
+                    "action_type": "RenameDatasetAction",
+                    "output_name": "output"
+                }
+            },
+            "tool_id": "toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_grep_tool/1.1.1",
+            "tool_shed_repository": {
+                "changeset_revision": "f46f0e4f75c4",
+                "name": "text_processing",
+                "owner": "bgruening",
+                "tool_shed": "toolshed.g2.bx.psu.edu"
+            },
+            "tool_state": "{\"case_sensitive\": \"-i\", \"color\": \"NOCOLOR\", \"infile\": {\"__class__\": \"ConnectedValue\"}, \"invert\": \"\", \"lines_after\": \"0\", \"lines_before\": \"1\", \"regex_type\": \"-P\", \"url_paste\": \"^CAC....A[G|T]\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
+            "tool_version": null,
+            "type": "tool",
+            "uuid": "8eb803b2-8c20-4aae-8269-d5394ea92cb3",
+            "workflow_outputs": [
+                {
+                    "label": null,
+                    "output_name": "output",
+                    "uuid": "6f414fb1-d6f8-4242-817d-695b97516169"
+                }
+            ]
+        },
+        "18": {
+            "annotation": "",
+            "content_id": "toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_grep_tool/1.1.1",
+            "errors": null,
+            "id": 18,
+            "input_connections": {
+                "infile": {
+                    "id": 15,
+                    "output_name": "out_file1"
+                }
+            },
+            "inputs": [],
+            "label": "CAC-match PAX3 non",
+            "name": "Search in textfiles",
+            "outputs": [
+                {
+                    "name": "output",
+                    "type": "input"
+                }
+            ],
+            "position": {
+                "left": 1792.09375,
+                "top": 321.9375
+            },
+            "post_job_actions": {},
+            "tool_id": "toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_grep_tool/1.1.1",
+            "tool_shed_repository": {
+                "changeset_revision": "f46f0e4f75c4",
+                "name": "text_processing",
+                "owner": "bgruening",
+                "tool_shed": "toolshed.g2.bx.psu.edu"
+            },
+            "tool_state": "{\"case_sensitive\": \"-i\", \"color\": \"NOCOLOR\", \"infile\": {\"__class__\": \"ConnectedValue\"}, \"invert\": \"\", \"lines_after\": \"0\", \"lines_before\": \"1\", \"regex_type\": \"-P\", \"url_paste\": \"^CAC....A[G|T]\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
+            "tool_version": null,
+            "type": "tool",
+            "uuid": "76fd322e-8ef3-44a9-bc8b-a3f42c0476eb",
+            "workflow_outputs": [
+                {
+                    "label": "preciseSJ_filtered_FWD_CAC",
+                    "output_name": "output",
+                    "uuid": "bd0288cd-e756-4a34-9d9c-409dc982f096"
+                }
+            ]
+        },
+        "19": {
+            "annotation": "",
+            "content_id": "toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_grep_tool/1.1.1",
+            "errors": null,
+            "id": 19,
+            "input_connections": {
+                "infile": {
+                    "id": 16,
+                    "output_name": "out_file1"
+                }
+            },
+            "inputs": [],
+            "label": "CAC-match LMO2 non",
+            "name": "Search in textfiles",
+            "outputs": [
+                {
+                    "name": "output",
+                    "type": "input"
+                }
+            ],
+            "position": {
+                "left": 1783.21875,
+                "top": 533.140625
+            },
+            "post_job_actions": {},
+            "tool_id": "toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_grep_tool/1.1.1",
+            "tool_shed_repository": {
+                "changeset_revision": "f46f0e4f75c4",
+                "name": "text_processing",
+                "owner": "bgruening",
+                "tool_shed": "toolshed.g2.bx.psu.edu"
+            },
+            "tool_state": "{\"case_sensitive\": \"-i\", \"color\": \"NOCOLOR\", \"infile\": {\"__class__\": \"ConnectedValue\"}, \"invert\": \"\", \"lines_after\": \"0\", \"lines_before\": \"1\", \"regex_type\": \"-P\", \"url_paste\": \"^CAC....A[G|T]\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
+            "tool_version": null,
+            "type": "tool",
+            "uuid": "0f507a7d-c903-46df-916f-8c9793a2ea91",
+            "workflow_outputs": [
+                {
+                    "label": null,
+                    "output_name": "output",
+                    "uuid": "56e27c72-93e5-4b51-bf74-0535e3e919d4"
+                }
+            ]
+        },
+        "20": {
+            "annotation": "",
+            "content_id": "toolshed.g2.bx.psu.edu/repos/devteam/fasta_to_tabular/fasta2tab/1.1.1",
+            "errors": null,
+            "id": 20,
+            "input_connections": {
+                "input": {
+                    "id": 17,
+                    "output_name": "output"
+                }
+            },
+            "inputs": [],
+            "label": null,
+            "name": "FASTA-to-Tabular",
+            "outputs": [
+                {
+                    "name": "output",
+                    "type": "tabular"
+                }
+            ],
+            "position": {
+                "left": 2050.6875,
+                "top": 134.25
+            },
+            "post_job_actions": {},
+            "tool_id": "toolshed.g2.bx.psu.edu/repos/devteam/fasta_to_tabular/fasta2tab/1.1.1",
+            "tool_shed_repository": {
+                "changeset_revision": "e7ed3c310b74",
+                "name": "fasta_to_tabular",
+                "owner": "devteam",
+                "tool_shed": "toolshed.g2.bx.psu.edu"
+            },
+            "tool_state": "{\"descr_columns\": \"1\", \"input\": {\"__class__\": \"ConnectedValue\"}, \"keep_first\": \"0\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
+            "tool_version": null,
+            "type": "tool",
+            "uuid": "165aab5d-5417-499e-b4ff-29565b5fad90",
+            "workflow_outputs": [
+                {
+                    "label": null,
+                    "output_name": "output",
+                    "uuid": "ec444b31-dd7e-4d73-b2b2-5321781e13ac"
+                }
+            ]
+        },
+        "21": {
+            "annotation": "",
+            "content_id": "toolshed.g2.bx.psu.edu/repos/devteam/fasta_to_tabular/fasta2tab/1.1.1",
+            "errors": null,
+            "id": 21,
+            "input_connections": {
+                "input": {
+                    "id": 18,
+                    "output_name": "output"
+                }
+            },
+            "inputs": [],
+            "label": null,
+            "name": "FASTA-to-Tabular",
+            "outputs": [
+                {
+                    "name": "output",
+                    "type": "tabular"
+                }
+            ],
+            "position": {
+                "left": 2048.359375,
+                "top": 351.0
+            },
+            "post_job_actions": {},
+            "tool_id": "toolshed.g2.bx.psu.edu/repos/devteam/fasta_to_tabular/fasta2tab/1.1.1",
+            "tool_shed_repository": {
+                "changeset_revision": "e7ed3c310b74",
+                "name": "fasta_to_tabular",
+                "owner": "devteam",
+                "tool_shed": "toolshed.g2.bx.psu.edu"
+            },
+            "tool_state": "{\"descr_columns\": \"1\", \"input\": {\"__class__\": \"ConnectedValue\"}, \"keep_first\": \"0\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
+            "tool_version": null,
+            "type": "tool",
+            "uuid": "d81b7811-612a-43a9-9fc9-cd19ae6fb627",
+            "workflow_outputs": [
+                {
+                    "label": null,
+                    "output_name": "output",
+                    "uuid": "eeccfb03-7155-4339-bd98-22f3628567d8"
+                }
+            ]
+        },
+        "22": {
+            "annotation": "",
+            "content_id": "toolshed.g2.bx.psu.edu/repos/devteam/fasta_to_tabular/fasta2tab/1.1.1",
+            "errors": null,
+            "id": 22,
+            "input_connections": {
+                "input": {
+                    "id": 19,
+                    "output_name": "output"
+                }
+            },
+            "inputs": [],
+            "label": null,
+            "name": "FASTA-to-Tabular",
+            "outputs": [
+                {
+                    "name": "output",
+                    "type": "tabular"
+                }
+            ],
+            "position": {
+                "left": 2046.578125,
+                "top": 549.0
+            },
+            "post_job_actions": {},
+            "tool_id": "toolshed.g2.bx.psu.edu/repos/devteam/fasta_to_tabular/fasta2tab/1.1.1",
+            "tool_shed_repository": {
+                "changeset_revision": "e7ed3c310b74",
+                "name": "fasta_to_tabular",
+                "owner": "devteam",
+                "tool_shed": "toolshed.g2.bx.psu.edu"
+            },
+            "tool_state": "{\"descr_columns\": \"1\", \"input\": {\"__class__\": \"ConnectedValue\"}, \"keep_first\": \"0\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
+            "tool_version": null,
+            "type": "tool",
+            "uuid": "0876ddae-b6ff-4044-89df-4cafdf447c95",
+            "workflow_outputs": [
+                {
+                    "label": null,
+                    "output_name": "output",
+                    "uuid": "0cdc0d4e-8c20-4d2c-bc91-e2ad1e706e21"
+                }
+            ]
+        },
+        "23": {
+            "annotation": "",
+            "content_id": "Count1",
+            "errors": null,
+            "id": 23,
+            "input_connections": {
+                "input": {
+                    "id": 20,
+                    "output_name": "output"
+                }
+            },
+            "inputs": [],
+            "label": "diff_read-count_consensus-non",
+            "name": "Count",
+            "outputs": [
+                {
+                    "name": "out_file1",
+                    "type": "tabular"
+                }
+            ],
+            "position": {
+                "left": 2318.453125,
+                "top": 157.109375
+            },
+            "post_job_actions": {},
+            "tool_id": "Count1",
+            "tool_state": "{\"column\": \"2\", \"delim\": \"T\", \"input\": {\"__class__\": \"ConnectedValue\"}, \"sorting\": \"largest\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
+            "tool_version": null,
+            "type": "tool",
+            "uuid": "7d73be6d-c02b-48a3-bd51-0197f8ac4cb7",
+            "workflow_outputs": [
+                {
+                    "label": null,
+                    "output_name": "out_file1",
+                    "uuid": "9946f38b-439a-402b-abdb-0ff88c962f9b"
+                }
+            ]
+        },
+        "24": {
+            "annotation": "",
+            "content_id": "Count1",
+            "errors": null,
+            "id": 24,
+            "input_connections": {
+                "input": {
+                    "id": 21,
+                    "output_name": "output"
+                }
+            },
+            "inputs": [],
+            "label": "diff_read-count_PAX3-non",
+            "name": "Count",
+            "outputs": [
+                {
+                    "name": "out_file1",
+                    "type": "tabular"
+                }
+            ],
+            "position": {
+                "left": 2326.546875,
+                "top": 368.40625
+            },
+            "post_job_actions": {},
+            "tool_id": "Count1",
+            "tool_state": "{\"column\": \"2\", \"delim\": \"T\", \"input\": {\"__class__\": \"ConnectedValue\"}, \"sorting\": \"largest\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
+            "tool_version": null,
+            "type": "tool",
+            "uuid": "a40ecd22-aeaa-4072-bb3d-661262d91925",
+            "workflow_outputs": [
+                {
+                    "label": "read-counts_preciseSJ",
+                    "output_name": "out_file1",
+                    "uuid": "89405dbd-87e7-4927-922d-a328dadc7e54"
+                }
+            ]
+        },
+        "25": {
+            "annotation": "",
+            "content_id": "Count1",
+            "errors": null,
+            "id": 25,
+            "input_connections": {
+                "input": {
+                    "id": 22,
+                    "output_name": "output"
+                }
+            },
+            "inputs": [],
+            "label": "diff_read-count_LMO2-non",
+            "name": "Count",
+            "outputs": [
+                {
+                    "name": "out_file1",
+                    "type": "tabular"
+                }
+            ],
+            "position": {
+                "left": 2318.734375,
+                "top": 565.65625
+            },
+            "post_job_actions": {},
+            "tool_id": "Count1",
+            "tool_state": "{\"column\": \"2\", \"delim\": \"T\", \"input\": {\"__class__\": \"ConnectedValue\"}, \"sorting\": \"largest\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
+            "tool_version": null,
+            "type": "tool",
+            "uuid": "bc2a6f9e-ca93-46e3-9f4a-c4a8c7d5069b",
+            "workflow_outputs": [
+                {
+                    "label": null,
+                    "output_name": "out_file1",
+                    "uuid": "a3342751-876c-4ddc-b987-973e3169c212"
+                }
+            ]
+        }
+    },
+    "tags": [
+        "github"
+    ],
+    "uuid": "9069d280-ec8b-4258-b87d-64c9c691cfd6",
+    "version": 10
+}
